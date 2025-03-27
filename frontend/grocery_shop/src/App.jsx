@@ -23,6 +23,10 @@ function App() {
         <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
           <Route path="/admin-dashboard" element={<AdminDashboard />} />
         </Route>
+        <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
+          <Route path="/manage-inventory" element={<AdminDashboard />} />
+        </Route>
+        {/* <Route path="/manage-inventory" element={<ManageInventory />} /> */}
       </Routes>
     </Router>
   );

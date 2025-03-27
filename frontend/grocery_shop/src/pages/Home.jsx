@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 
+
 const ShopDetails = () => (
   <div className="bg-gray-900 text-white p-8">
     <h2 className="text-3xl font-bold mb-6">Shop Details</h2>
@@ -40,12 +41,12 @@ const Home = () => {
             <div className="relative grid grid-cols-3 gap-4 h-full">
               <div className="col-span-1 flex items-center justify-center">
                 <div className="w-32 h-48 bg-white shadow-lg rounded-lg flex items-center justify-center">
-                  <span className="text-gray-500">Featured Product</span>
+                  <span className="text-gray-500"><img src="https://img.freepik.com/premium-vector/vertical-poster-supermarket-shopping-basket-with-collection-different-products_913036-2286.jpg" /></span>
                 </div>
               </div>
               <div className="col-span-2 flex items-center justify-center">
                 <div className="w-48 h-64 bg-white shadow-lg rounded-lg flex items-center justify-center">
-                  <span className="text-gray-500">Best Seller</span>
+                  <span className="text-gray-500"><img src="https://images.unsplash.com/photo-1601598851547-4302969d0614?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fG9ubGluZSUyMGdyb2NlcnklMjBzaG9wcGluZ3xlbnwwfHwwfHx8MA%3D%3D" /></span>
                 </div>
               </div>
             </div>
