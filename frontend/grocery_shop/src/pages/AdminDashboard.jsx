@@ -23,10 +23,10 @@ const salesSummaryData = [
 
 // Popular Products Data
 const popularProductsData = [
-  { name: "Popped Rice Crisps Chocolate", price: "$105.60", status: "Deactive" },
-  { name: "Strawberry Juice Shortcake", price: "$245.80", status: "Active" },
-  { name: "Popped Rice Crisps Chocolate", price: "$648.60", status: "Active" },
-  { name: "Grapefruit Juice Pomelo", price: "$648.60", status: "Active" },
+  { name: "Apple ", price: "₹105.60"},
+  { name: "Strawberry Juice ", price: "₹245.80" },
+  { name: "Banana", price: "₹648.60" },
+  { name: "Grapefruit Juice", price: "₹648.60" },
 ];
 
 // Top Product Sale Data
@@ -68,18 +68,18 @@ export default function AdminDashboard() {
           <ul className="space-y-2">
             <li>
               <button
-                onClick={() => navigate("/manage-inventory")}
+                onClick={() => navigate("/add-items")}
                 className="w-full text-left p-2 hover:bg-gray-700 rounded"
               >
-                Manage Inventory
+                Add items
               </button>
             </li>
             <li>
               <button
-                onClick={() => navigate("/manage-orders")}
+                onClick={() => navigate("/manage-products")}
                 className="w-full text-left p-2 hover:bg-gray-700 rounded"
               >
-                Manage Orders
+                Manage Products
               </button>
             </li>
             <li>
@@ -103,7 +103,7 @@ export default function AdminDashboard() {
         {/* Header */}
         <div className="mb-6">
           <h1 className="text-3xl font-bold">Welcome, {user?.name} (Admin)</h1>
-          <p className="text-gray-300">Manage inventory and process orders.</p>
+          <p className="text-gray-300">Manage products and orders.</p>
         </div>
 
         {/* Sales Summary */}
@@ -138,14 +138,14 @@ export default function AdminDashboard() {
               </Pie>
               <Tooltip />
             </PieChart>
-            <div className="text-center font-bold text-xl mt-2 text-white">$3,250.00</div>
+            <div className="text-center font-bold text-xl mt-2 text-white">₹3,250.00</div>
           </div>
 
           {/* Middle Column: Popular Products */}
           <div className="col-span-1 bg-gray-700 p-4 rounded shadow">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-lg font-bold">Popular Products</h2>
-              <span className="text-green-400 text-sm cursor-pointer">See All Products</span>
+              
             </div>
             {popularProductsData.map((product, index) => (
               <div key={index} className="flex justify-between items-center py-2 border-b border-gray-600">
@@ -153,15 +153,7 @@ export default function AdminDashboard() {
                   <div className="text-white">{product.name}</div>
                   <div className="text-gray-400">{product.price}</div>
                 </div>
-                <span
-                  className={`px-2 py-1 rounded text-xs ${
-                    product.status === "Active"
-                      ? "bg-green-100 text-green-600"
-                      : "bg-red-100 text-red-600"
-                  }`}
-                >
-                  {product.status}
-                </span>
+                
               </div>
             ))}
           </div>
