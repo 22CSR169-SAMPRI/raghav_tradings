@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 
 const AddItems = () => {
   const [itemData, setItemData] = useState({
@@ -18,14 +19,47 @@ const AddItems = () => {
     });
   };
 
-  const handleImageUpload = (e) => {
-    // Placeholder for image upload logic
-    console.log("Image upload triggered");
+  const handleImageUpload = async (e) => {
+    const file = e.target.files[0];
+    const formData = new FormData();
+    formData.append("image", file);
+  
+    try {
+      const response = await axios.post("http://localhost:5000/api/upload", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      const imageUrl = response.data.imageUrl;
+      setItemData((prevData) => ({
+        ...prevData,
+        images: [...prevData.images, imageUrl],
+      }));
+      alert("Image uploaded successfully!");
+    } catch (error) {
+      console.error("Error uploading image:", error.message);
+      alert("Failed to upload image.");
+    }
   };
 
-  const handleAddItem = () => {
-    // Placeholder for adding item logic
-    console.log("Item added:", itemData);
+  
+  const handleAddItem = async () => {
+    try {
+      const response = await axios.post("http://localhost:5000/api/products", itemData);
+      console.log("Item added:", response.data);
+      alert("Item added successfully!");
+      setItemData({
+        name: "",
+        category: "",
+        price: "",
+        stock: "",
+        description: "",
+        images: [],
+      });
+    } catch (error) {
+      console.error("Error adding item:", error.message);
+      alert("Failed to add item.");
+    }
   };
 
   return (
@@ -117,41 +151,28 @@ const AddItems = () => {
 
         {/* Right Column */}
         <div className="bg-gray-700 p-6 rounded-lg shadow-sm">
-          <div className="mb-6">
-            <h2 className="font-medium mb-4">Upload Images</h2>
-            <div className="grid grid-cols-3 gap-4">
-              <div className="border border-dashed rounded-md p-4 aspect-square flex flex-col items-center justify-center text-center text-blue-500">
-                <div className="mb-2">
-                  <svg
-                    className="w-8 h-8"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
-                    ></path>
-                  </svg>
-                </div>
-                <div className="text-sm">
-                  Drop your images here or{" "}
-                  <span
-                    className="text-blue-600 cursor-pointer"
-                    onClick={handleImageUpload}
-                  >
-                    click to browse
-                  </span>
-                </div>
-              </div>
-            </div>
-            <p className="text-sm text-gray-400 mt-4">
-              Add at least one image. Ensure the image quality is high.
-            </p>
-          </div>
+        <div className="mb-6">
+  <h2 className="font-medium mb-4">Upload Images</h2>
+  <input
+    type="file"
+    accept="image/*"
+    onChange={handleImageUpload}
+    className="w-full p-2 border rounded-md bg-gray-800 text-white"
+  />
+  <p className="text-sm text-gray-400 mt-4">
+    Add at least one image. Ensure the image quality is high.
+  </p>
+  <div className="grid grid-cols-3 gap-4 mt-4">
+    {itemData.images.map((image, index) => (
+      <img
+        key={index}
+        src={`http://localhost:5000${image}`}
+        alt={`Uploaded ${index + 1}`}
+        className="w-full h-32 object-cover rounded-md"
+      />
+    ))}
+  </div>
+</div>
 
           <div className="grid grid-cols-3 gap-4">
             <button

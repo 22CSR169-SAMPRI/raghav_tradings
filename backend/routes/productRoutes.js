@@ -1,9 +1,15 @@
 import express from "express";
-import { getAllProducts, getProductsByCategory } from "../controllers/productController.js";
+import { addProduct, getAllProducts, getProductsByCategory } from "../controllers/productController.js";
 
 const router = express.Router();
 
-router.get("/", getAllProducts); // Fetch all products
-router.get("/:category", getProductsByCategory); // Fetch products by category
+// Route to add a new product
+router.post("/", addProduct);
+
+// Route to get all products
+router.get("/", getAllProducts);
+
+// Route to get products by category
+router.get("/:category", getProductsByCategory);
 
 export default router;
