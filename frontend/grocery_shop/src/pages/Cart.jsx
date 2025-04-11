@@ -5,24 +5,24 @@ const Cart = () => {
   const cartItems = [
     {
       id: 1,
-      image: "/api/placeholder/48/48",
-      name: "Apple",
+      
+      name: "Carrot",
       quantity: 2,
-      price: "$3.00",
+      price: "₹3.00",
     },
     {
       id: 2,
-      image: "/api/placeholder/48/48",
+      
       name: "Banana",
       quantity: 5,
-      price: "$2.50",
+      price: "₹2.50",
     },
     {
       id: 3,
-      image: "/api/placeholder/48/48",
-      name: "Milk",
+      
+      name: "Coffee",
       quantity: 1,
-      price: "$2.00",
+      price: "₹2.00",
     },
   ];
 
@@ -43,13 +43,7 @@ const Cart = () => {
                 key={item.id}
                 className="flex items-start py-4 border-b last:border-b-0"
               >
-                <div className="w-12 h-12 mr-4">
-                  <img
-                    src={item.image}
-                    alt={item.name}
-                    className="w-full h-full object-contain"
-                  />
-                </div>
+                
                 <div className="flex-grow grid grid-cols-1 md:grid-cols-3 gap-2">
                   <div>
                     <p className="text-xs text-gray-500">Product name</p>
@@ -94,16 +88,16 @@ const Cart = () => {
 
               <div className="col-span-1 text-right">
                 <div className="mb-4">
-                  <p className="font-medium">$7.50</p>
+                  <p className="font-medium">₹7.50</p>
                 </div>
                 <div className="mb-4">
-                  <p className="font-medium">$2.00</p>
+                  <p className="font-medium">₹2.00</p>
                 </div>
                 <div className="mb-4">
-                  <p className="font-medium">$0.50</p>
+                  <p className="font-medium">₹0.50</p>
                 </div>
                 <div>
-                  <p className="font-medium text-orange-500">$10.00</p>
+                  <p className="font-medium text-orange-500">₹10.00</p>
                 </div>
               </div>
             </div>
@@ -122,10 +116,10 @@ const Cart = () => {
             <div className="font-medium">{cartItems.length}</div>
 
             <div className="text-gray-600">Subtotal</div>
-            <div className="font-medium">$7.50</div>
+            <div className="font-medium">₹7.50</div>
 
             <div className="text-gray-600">Total</div>
-            <div className="font-medium text-orange-500">$10.00</div>
+            <div className="font-medium text-orange-500">₹10.00</div>
           </div>
         </div>
 
@@ -133,7 +127,7 @@ const Cart = () => {
         <div className="bg-white rounded-lg shadow mb-4 p-4">
           <h2 className="font-medium mb-4">Shipping Address</h2>
           <p className="text-gray-700">
-            3517 W. Gray St. Utica, Pennsylvania 57867
+            ABC street, Erode
           </p>
         </div>
 
@@ -141,8 +135,9 @@ const Cart = () => {
         <div className="bg-white rounded-lg shadow mb-4 p-4">
           <h2 className="font-medium mb-4">Payment Method</h2>
           <p className="text-gray-700">
-            Pay on Delivery (Cash/Card). Cash on delivery (COD) available.
-            Card/Net banking acceptance subject to device availability.
+            Pay on Delivery (Cash/Card). 
+            Cash on delivery (COD) available.
+            
           </p>
         </div>
 

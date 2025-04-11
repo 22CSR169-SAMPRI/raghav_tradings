@@ -44,7 +44,11 @@ const FruitsVegetables = () => {
             >
               {/* Product Image */}
               <div className="flex justify-center my-4">
-              <img src={`http://localhost:5000${product.images[0]}`} alt={product.name} />
+                <img
+                src={`http://localhost:5000${product.images[0]}`}
+                alt={product.name}
+                className="w-32 h-32 object-cover rounded-md"
+                />
               </div>
 
               {/* Product Info */}

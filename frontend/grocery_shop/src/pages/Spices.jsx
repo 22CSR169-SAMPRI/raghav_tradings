@@ -44,10 +44,10 @@ const Spices = () => {
               {/* Product Image */}
               <div className="flex justify-center my-4">
                 <img
-                  src={product.images[0]}
-                  alt={product.name}
-                  className="h-32 w-auto object-contain"
-                />
+                src={`http://localhost:5000${product.images[0]}`}
+                alt={product.name}
+                className="w-32 h-32 object-cover rounded-md"
+               />
               </div>
 
               {/* Product Info */}
@@ -58,6 +58,7 @@ const Spices = () => {
                 <p className="text-gray-300">{product.description}</p>
                 <p className="text-white font-bold mt-2">₹{product.price}</p>
 
+                {/* Add to Cart Button */}
                 <button
                   onClick={() => handleAddToCart(product)}
                   className="mt-4 bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-full"

@@ -15,7 +15,7 @@ const CoffeeTea = () => {
       try {
         const response = await axios.get("http://localhost:5000/api/products");
         const coffeeTea = response.data.filter(
-          (product) => product.category === "coffee-tea"
+          (product) => product.category === "beverages"
         );
         setProducts(coffeeTea);
       } catch (error) {
@@ -45,9 +45,9 @@ const CoffeeTea = () => {
               {/* Product Image */}
               <div className="flex justify-center my-4">
                 <img
-                  src={product.images[0]}
-                  alt={product.name}
-                  className="h-32 w-auto object-contain"
+                src={`http://localhost:5000${product.images[0]}`}
+                alt={product.name}
+                className="w-32 h-32 object-cover rounded-md"
                 />
               </div>
 
