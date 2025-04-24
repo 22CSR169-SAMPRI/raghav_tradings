@@ -11,6 +11,7 @@ import Spices from "./pages/Spices";
 import CoffeeTea from "./pages/CoffeeTea";
 import ManageProducts from "./pages/ManageProducts";
 import Home from "./pages/Home"; // Import the new Home component
+import Checkout from "./pages/Checkout";
 
 function App() {
   return (
@@ -26,6 +27,10 @@ function App() {
         </Route>
         <Route element={<ProtectedRoute allowedRoles={["customer"]} />}>
           <Route path="/cart" element={<Cart />} />
+        </Route>
+
+        <Route element={<ProtectedRoute allowedRoles={["customer"]} />}>
+          <Route path="/checkout" element={<Checkout />} />
         </Route>
         
         <Route element={<ProtectedRoute allowedRoles={["customer"]} />}>

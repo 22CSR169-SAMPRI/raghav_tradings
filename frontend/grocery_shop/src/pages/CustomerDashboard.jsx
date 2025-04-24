@@ -9,6 +9,7 @@ import {
   Wine,
   ShoppingCart,
 } from "lucide-react";
+import CustomerLayout from "../components/CustomerLayout";
 
 const CustomerDashboard = () => {
   const [user, setUser] = useState(null);
@@ -30,13 +31,14 @@ const CustomerDashboard = () => {
   ];
 
   return (
+    <CustomerLayout>
     <div className="min-h-screen flex">
-      {/* Sidebar */}
+      {/* Sidebar
       <aside className="w-64 bg-gray-800 text-white p-5 space-y-4">
         <h2 className="text-2xl font-bold">Raghav Tradings</h2>
         <nav>
           <ul className="space-y-4">
-            {/* Categories Section */}
+             Categories Section 
             <li>
               <h3 className="text-lg font-semibold text-gray-300">Categories</h3>
               <ul className="space-y-2 mt-2">
@@ -53,7 +55,7 @@ const CustomerDashboard = () => {
                 ))}
               </ul>
             </li>
-            {/* Cart Section */}
+             Cart Section 
             <li>
               <button
                 onClick={() => navigate("/cart")}
@@ -65,7 +67,7 @@ const CustomerDashboard = () => {
             </li>
           </ul>
         </nav>
-      </aside>
+      </aside> */}
 
       {/* Main Content */}
       <main className="flex-1 bg-gray-800 text-white p-8">
@@ -129,6 +131,7 @@ const CustomerDashboard = () => {
         </div>
       </main>
     </div>
+    </CustomerLayout>
   );
 };
 

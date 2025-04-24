@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import AdminLayout from "../components/AdminLayout";
 
 const AddItems = () => {
   const [itemData, setItemData] = useState({
@@ -63,6 +64,7 @@ const AddItems = () => {
   };
 
   return (
+    <AdminLayout>
     <div className="min-h-screen bg-gray-800 text-white p-6">
       <div className="mb-6">
         <h1 className="text-3xl font-bold">Add New Item</h1>
@@ -188,6 +190,7 @@ const AddItems = () => {
         </div>
       </div>
     </div>
+    </AdminLayout>
   );
 };
 

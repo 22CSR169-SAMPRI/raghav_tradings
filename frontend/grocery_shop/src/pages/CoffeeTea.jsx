@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import CustomerLayout from "../components/CustomerLayout";
+import { useCart } from "../context/CartContext";
 
 const CoffeeTea = () => {
   const [products, setProducts] = useState([]);
+  const { addToCart } = useCart();
 
   const handleAddToCart = (product) => {
     // Logic to add the product to the cart
+    addToCart(product);
     console.log("Added to cart:", product);
     alert(`${product.name} has been added to your cart!`);
   };
@@ -27,6 +31,7 @@ const CoffeeTea = () => {
   }, []);
 
   return (
+    <CustomerLayout>
     <div className="bg-gray-800 min-h-screen p-6 text-white">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
@@ -71,6 +76,7 @@ const CoffeeTea = () => {
         </div>
       </div>
     </div>
+    </CustomerLayout>
   );
 };
 

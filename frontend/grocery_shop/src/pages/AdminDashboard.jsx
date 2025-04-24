@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import AdminLayout from "../components/AdminLayout";
 import {
   BarChart,
   Bar,
@@ -60,9 +61,10 @@ export default function AdminDashboard() {
   }, [navigate]);
 
   return (
+    <AdminLayout>
     <div className="min-h-screen flex bg-gray-800">
       {/* Sidebar */}
-      <aside className="w-64 bg-gray-800 text-white p-5 space-y-4">
+      {/* <aside className="w-64 bg-gray-800 text-white p-5 space-y-4">
         <h2 className="text-2xl font-bold">Raghav Tradings (Admin)</h2>
         <nav>
           <ul className="space-y-2">
@@ -96,7 +98,7 @@ export default function AdminDashboard() {
             </li>
           </ul>
         </nav>
-      </aside>
+      </aside> */}
 
       {/* Main Content */}
       <main className="flex-1 p-6 text-white">
@@ -179,5 +181,6 @@ export default function AdminDashboard() {
         </div>
       </main>
     </div>
+    </AdminLayout>
   );
 }
