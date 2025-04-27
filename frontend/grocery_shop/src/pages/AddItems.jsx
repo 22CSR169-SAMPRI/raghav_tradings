@@ -101,8 +101,7 @@ const AddItems = () => {
               onChange={handleInputChange}
             >
               <option value="">Select category</option>
-              <option value="fruits">Fruits</option>
-              <option value="vegetables">Vegetables</option>
+              <option value="cereals">Cereals</option>
               <option value="spices">Spices</option>
               <option value="beverages">Beverages</option>
             </select>

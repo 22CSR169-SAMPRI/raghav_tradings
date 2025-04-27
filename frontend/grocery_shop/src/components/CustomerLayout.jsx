@@ -12,9 +12,9 @@ const CustomerLayout = ({ children }) => {
   const location = useLocation();
 
   const productCategories = [
-    { icon: <Apple className="w-6 h-6 text-green-600" />, label: "Fruits & Vegetables", route: "/category/fruits-vegetables" },
+    { icon: <Apple className="w-6 h-6 text-green-600" />, label: "Cereals", route: "/category/cereals" },
     { icon: <Leaf className="w-6 h-6 text-green-600" />, label: "Spices", route: "/category/spices" },
-    { icon: <Coffee className="w-6 h-6 text-green-600" />, label: "Coffee & Tea", route: "/category/coffee-tea" },
+    { icon: <Coffee className="w-6 h-6 text-green-600" />, label: "Beverages", route: "/category/beverages" },
   ];
 
   return (

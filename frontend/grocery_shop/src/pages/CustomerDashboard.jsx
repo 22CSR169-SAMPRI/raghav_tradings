@@ -25,9 +25,9 @@ const CustomerDashboard = () => {
   }, [navigate]);
 
   const productCategories = [
-    { icon: <Apple className="w-6 h-6 text-green-600" />, label: "Fruits & Vegetables", route: "/category/fruits-vegetables" },
+    { icon: <Apple className="w-6 h-6 text-green-600" />, label: "Cereals", route: "/category/cereals" },
     { icon: <Leaf className="w-6 h-6 text-green-600" />, label: "Spices", route: "/category/spices" },
-    { icon: <Coffee className="w-6 h-6 text-green-600" />, label: "Coffee & Tea", route: "/category/coffee-tea" },
+    { icon: <Coffee className="w-6 h-6 text-green-600" />, label: "Beverages", route: "/category/beverages" },
   ];
 
   return (
@@ -78,7 +78,7 @@ const CustomerDashboard = () => {
         <div className="bg-gray-700 flex items-center p-8 rounded-lg my-8">
           <div className="w-1/2 space-y-4">
             <h1 className="text-4xl font-bold">
-              Fresh Vegetables at
+              
               <span className="text-green-400"> Big Discount</span>
             </h1>
             <p className="text-gray-300">Save Up To 30% On Your First Order</p>
@@ -104,7 +104,7 @@ const CustomerDashboard = () => {
             <span className="text-gray-300">Free Shipping</span>
           </div>
           <div className="flex items-center space-x-2">
-            <span className="text-gray-300">Great Daily Deals</span>
+            <span className="text-gray-300">Great Deals</span>
           </div>
           <div className="flex items-center space-x-2">
             <span className="text-gray-300">100% Secure Payment</span>

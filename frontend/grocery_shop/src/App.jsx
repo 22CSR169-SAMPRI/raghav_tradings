@@ -6,9 +6,9 @@ import AdminDashboard from "./pages/AdminDashboard";
 import ProtectedRoute from "./ProtectedRoute";
 import AddItems from "./pages/AddItems";
 import Cart from "./pages/Cart";
-import FruitsVegetables from "./pages/FruitsVegetables";
+import Cereals from "./pages/Cereals";
 import Spices from "./pages/Spices";
-import CoffeeTea from "./pages/CoffeeTea";
+import Beverages from "./pages/Beverages";
 import ManageProducts from "./pages/ManageProducts";
 import Home from "./pages/Home"; // Import the new Home component
 import Checkout from "./pages/Checkout";
@@ -34,7 +34,7 @@ function App() {
         </Route>
         
         <Route element={<ProtectedRoute allowedRoles={["customer"]} />}>
-          <Route path="/category/fruits-vegetables" element={<FruitsVegetables />} />
+          <Route path="/category/cereals" element={<Cereals />} />
         </Route>
 
         <Route element={<ProtectedRoute allowedRoles={["customer"]} />}>
@@ -42,7 +42,7 @@ function App() {
         </Route>
 
         <Route element={<ProtectedRoute allowedRoles={["customer"]} />}>
-          <Route path="/category/coffee-tea" element={<CoffeeTea />} />
+          <Route path="/category/beverages" element={<Beverages />} />
         </Route>
 
         {/* Admin Dashboard Route */}

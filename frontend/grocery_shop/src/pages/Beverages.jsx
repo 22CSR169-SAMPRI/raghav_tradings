@@ -3,7 +3,7 @@ import axios from "axios";
 import CustomerLayout from "../components/CustomerLayout";
 import { useCart } from "../context/CartContext";
 
-const FruitsVegetables = () => {
+const Beverages = () => {
   const [products, setProducts] = useState([]);
   const { addToCart } = useCart();
 
@@ -18,10 +18,10 @@ const FruitsVegetables = () => {
     const fetchProducts = async () => {
       try {
         const response = await axios.get("http://localhost:5000/api/products");
-        const fruitsVegetables = response.data.filter(
-          (product) => product.category === "vegetables" || product.category === "fruits"
+        const beverages = response.data.filter(
+          (product) => product.category === "beverages"
         );
-        setProducts(fruitsVegetables);
+        setProducts(beverages);
       } catch (error) {
         console.error("Error fetching products:", error.message);
       }
@@ -36,7 +36,7 @@ const FruitsVegetables = () => {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold">Fruits & Vegetables</h2>
+          <h2 className="text-2xl font-bold">Beverages</h2>
           
         </div>
 
@@ -80,4 +80,4 @@ const FruitsVegetables = () => {
   );
 };
 
-export default FruitsVegetables;
+export default Beverages;
