@@ -1,11 +1,6 @@
 import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import {
-  Coffee,
-  Apple,
-  Leaf,
-  ShoppingCart,
-} from "lucide-react";
+import { Coffee, Apple, Leaf, ShoppingCart, Home } from "lucide-react";
 
 const CustomerLayout = ({ children }) => {
   const navigate = useNavigate();
@@ -25,6 +20,20 @@ const CustomerLayout = ({ children }) => {
           <h2 className="text-2xl font-bold mb-6">Raghav Tradings</h2>
           <nav>
             <ul className="space-y-4">
+              {/* Home Section */}
+              <li>
+                <button
+                  onClick={() => navigate("/customer-dashboard")}
+                  className={`w-full flex items-center space-x-2 text-left p-2 rounded ${
+                    location.pathname === "/customer-dashboard"
+                      ? "bg-gray-700"
+                      : "hover:bg-gray-700"
+                  }`}
+                >
+                  <Home className="w-6 h-6 text-green-600" />
+                  <span>Home</span>
+                </button>
+              </li>
               {/* Categories Section */}
               <li>
                 <h3 className="text-lg font-semibold text-gray-300">Categories</h3>

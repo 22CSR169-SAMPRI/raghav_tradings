@@ -1,109 +1,124 @@
-import React, { useState } from "react";
-import { useCart } from "../context/CartContext";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+// filepath: d:\sam cse\consultancy_project\frontend\grocery_shop\src\pages\Checkout.jsx
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import CustomerLayout from "../components/CustomerLayout";
+import API from "../api";
 
 const Checkout = () => {
-  const { cartItems } = useCart(); // Access cart items from CartContext
-  const navigate = useNavigate(); // Initialize useNavigate
-  const [shippingMethod, setShippingMethod] = useState("free");
-  const [discountCode, setDiscountCode] = useState("");
-
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
-    email: "",
-    phone: "",
+    phoneNumber: "",
+    // email: "",
+    address: "",
     city: "",
     state: "",
     zipCode: "",
+    country: "",
   });
-
   const [errors, setErrors] = useState({});
 
-  const calculateSubtotal = () => {
-    return cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
-  };
+  useEffect(() => {
+    const fetchShippingDetails = async () => {
+      try {
+        const user = JSON.parse(localStorage.getItem("user"));
+        if (!user) return;
 
-  const calculateShipping = () => {
-    return 50; // Flat ₹50 shipping charge
-  };
+        const { data } = await API.get(`/auth/shipping-details/${user.id}`);
+        if (data) {
+          setFormData(data);
+        }
+      } catch (error) {
+        console.error("Failed to fetch shipping details:", error.message);
+      }
+    };
 
-  const calculateTax = () => {
-    const subtotal = calculateSubtotal();
-    return subtotal * 0.05; // Example: 5% GST
-  };
-
-  const calculateTotal = () => {
-    return calculateSubtotal() + calculateShipping() + calculateTax();
-  };
+    fetchShippingDetails();
+  }, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
+  const handleSaveAddress = async () => {
+    try {
+      const user = JSON.parse(localStorage.getItem("user"));
+      if (!user) return;
+
+      await API.post("/auth/shipping-details", {
+        userId: user.id,
+        shippingDetails: formData,
+      });
+
+      alert("Shipping details saved successfully!");
+    } catch (error) {
+      console.error("Failed to save shipping details:", error.message);
+      alert("Failed to save shipping details.");
+    }
+  };
+
+  const handleProceedToPayment = () => {
+    if (validateForm()) {
+      navigate("/payment");
+    }
+  };
+
   const validateForm = () => {
     const newErrors = {};
     if (!formData.firstName.trim()) newErrors.firstName = "First Name is required";
     if (!formData.lastName.trim()) newErrors.lastName = "Last Name is required";
-    if (!formData.email.trim()) newErrors.email = "Email is required";
-    if (!formData.phone.trim()) newErrors.phone = "Phone number is required";
+    if (!formData.phoneNumber.trim()) newErrors.phoneNumber = "Phone Number is required";
+    //if (!formData.email.trim()) newErrors.email = "Email is required";
+    if (!formData.address.trim()) newErrors.address = "Street Address is required";
     if (!formData.city.trim()) newErrors.city = "City is required";
     if (!formData.state.trim()) newErrors.state = "State is required";
     if (!formData.zipCode.trim()) newErrors.zipCode = "Zip Code is required";
+    if (!formData.country.trim()) newErrors.country = "Country is required";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = () => {
-    if (validateForm()) {
-      alert("Form submitted successfully!");
-      // Proceed to payment or next step
-    } else {
-      alert("Please fill in all required fields.");
-    }
-  };
-
   return (
     <CustomerLayout>
-      <div className="flex flex-col md:flex-row gap-6 p-4 bg-gray-800 min-h-screen text-white">
-        {/* Left Column - Shipping Information */}
-        <div className="flex-1 bg-gray-700 p-6 rounded-lg shadow-sm">
-          {/* Breadcrumbs */}
-<div className="flex items-center text-sm mb-6 text-gray-400">
-  <span
-    className={`font-medium cursor-pointer hover:underline ${
-      window.location.pathname === "/cart" ? "text-white" : "text-gray-400"
-    }`}
-    onClick={() => navigate("/cart")} // Navigate to Cart page
-  >
-    Cart
-  </span>
-  <span className="mx-2">›</span>
-  <span
-    className={`font-medium cursor-pointer hover:underline ${
-      window.location.pathname === "/checkout" ? "text-white" : "text-gray-400"
-    }`}
-    onClick={() => navigate("/checkout")} // Navigate to Shipping page
-  >
-    Shipping
-  </span>
-  <span className="mx-2">›</span>
-  <span
-    className={`font-medium cursor-pointer hover:underline ${
-      window.location.pathname === "/payment" ? "text-white" : "text-gray-400"
-    }`}
-    onClick={() => navigate("/payment")} // Navigate to Payment page
-  >
-    Payment
-  </span>
-</div>
+      <div className="max-w-4xl mx-auto p-6 bg-gray-800 text-white rounded-lg shadow-lg">
+        {/* Breadcrumb Navigation */}
+      <div className="flex items-center text-sm mb-6 text-gray-400">
+        <span
+          className={`font-medium cursor-pointer hover:underline ${
+            window.location.pathname === "/cart" ? "text-white" : "text-gray-400"
+          }`}
+          onClick={() => navigate("/cart")} // Navigate to Cart page
+        >
+          Cart
+        </span>
+        <span className="mx-2">›</span>
+        <span
+          className={`font-medium cursor-pointer hover:underline ${
+            window.location.pathname === "/checkout" ? "text-white" : "text-gray-400"
+          }`}
+          onClick={() => navigate("/checkout")} // Navigate to Shipping page
+        >
+          Shipping
+        </span>
+        <span className="mx-2">›</span>
+        <span
+          className={`font-medium cursor-pointer hover:underline ${
+            window.location.pathname === "/payment" ? "text-white" : "text-gray-400"
+          }`}
+          onClick={() => navigate("/payment")} // Navigate to Payment page
+        >
+          Payment
+        </span>
+      </div>
 
-          {/* Shipping Address */}
-          <h2 className="text-lg font-semibold mb-4">Shipping Address</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        <h1 className="text-2xl font-bold mb-6">Shipping Information</h1>
+
+        <div className="space-y-4">
+          {/* First Name and Last Name */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm mb-1">First Name*</label>
               <input
@@ -128,8 +143,20 @@ const Checkout = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+          {/* Phone Number and Email */}
+          {/*<div className="grid grid-cols-1 md:grid-cols-2 gap-4">*/}
             <div>
+              <label className="block text-sm mb-1">Phone Number*</label>
+              <input
+                type="text"
+                name="phoneNumber"
+                value={formData.phoneNumber}
+                onChange={handleInputChange}
+                className="w-full p-2 border border-gray-600 rounded bg-gray-800 text-white"
+              />
+              {errors.phoneNumber && <p className="text-red-500 text-sm">{errors.phoneNumber}</p>}
+            </div>
+            {/* <div>
               <label className="block text-sm mb-1">Email*</label>
               <input
                 type="email"
@@ -139,21 +166,24 @@ const Checkout = () => {
                 className="w-full p-2 border border-gray-600 rounded bg-gray-800 text-white"
               />
               {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
-            </div>
-            <div>
-              <label className="block text-sm mb-1">Phone number*</label>
-              <input
-                type="tel"
-                name="phone"
-                value={formData.phone}
-                onChange={handleInputChange}
-                className="w-full p-2 border border-gray-600 rounded bg-gray-800 text-white"
-              />
-              {errors.phone && <p className="text-red-500 text-sm">{errors.phone}</p>}
-            </div>
+            </div> */}
+          {/* </div> */}
+
+          {/* Street Address */}
+          <div>
+            <label className="block text-sm mb-1">Street Address*</label>
+            <input
+              type="text"
+              name="address"
+              value={formData.address}
+              onChange={handleInputChange}
+              className="w-full p-2 border border-gray-600 rounded bg-gray-800 text-white"
+            />
+            {errors.address && <p className="text-red-500 text-sm">{errors.address}</p>}
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+          {/* City, State, and Zip Code */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
               <label className="block text-sm mb-1">City*</label>
               <input
@@ -188,53 +218,37 @@ const Checkout = () => {
               {errors.zipCode && <p className="text-red-500 text-sm">{errors.zipCode}</p>}
             </div>
           </div>
-        </div>
 
-        {/* Right Column - Cart Summary */}
-        <div className="md:w-80 bg-gray-700 p-6 rounded-lg shadow-sm h-fit">
-          <h2 className="text-xl font-semibold mb-4">Your Cart</h2>
-
-          {/* Cart Items */}
-          <div className="border-b pb-4 mb-4">
-            {cartItems.map((item) => (
-              <div key={item._id} className="flex mb-4">
-                <div className="flex-1">
-                  <p className="font-medium">{item.name}</p>
-                  <p className="text-gray-400 text-sm">Quantity: {item.quantity}</p>
-                </div>
-                <div className="font-medium">₹{(item.price * item.quantity).toFixed(2)}</div>
-              </div>
-            ))}
+          {/* Country */}
+          <div>
+            <label className="block text-sm mb-1">Country*</label>
+            <input
+              type="text"
+              name="country"
+              value={formData.country}
+              onChange={handleInputChange}
+              className="w-full p-2 border border-gray-600 rounded bg-gray-800 text-white"
+            />
+            {errors.country && <p className="text-red-500 text-sm">{errors.country}</p>}
           </div>
 
-          {/* Order Summary */}
-          <div className="mb-4">
-            <div className="flex justify-between py-1">
-              <span>Subtotal</span>
-              <span className="font-medium">₹{calculateSubtotal().toFixed(2)}</span>
-            </div>
-            <div className="flex justify-between py-1">
-              <span>Shipping</span>
-              <span className="font-medium">₹{calculateShipping().toFixed(2)}</span>
-            </div>
-            <div className="flex justify-between py-1">
-              <span>Tax (GST)</span>
-              <span className="font-medium">₹{calculateTax().toFixed(2)}</span>
-            </div>
+          {/* Save to Address Book */}
+          <div className="flex items-center">
+            <input
+              type="checkbox"
+              id="saveAddress"
+              className="mr-2"
+              onChange={(e) => e.target.checked && handleSaveAddress()}
+            />
+            <label htmlFor="saveAddress" className="text-sm">Save to my address book</label>
           </div>
 
-          {/* Total */}
-          <div className="flex justify-between py-2 border-t mb-4">
-            <span className="font-semibold">Total</span>
-            <span className="font-semibold text-lg">₹{calculateTotal().toFixed(2)}</span>
-          </div>
-
-          {/* Checkout Button */}
+          {/* Proceed to Payment Button */}
           <button
-            onClick={handleSubmit}
-            className="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded font-medium"
+            onClick={handleProceedToPayment}
+            className="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded font-medium mt-4"
           >
-            Continue to Payment
+            Proceed to Payment
           </button>
         </div>
       </div>

@@ -49,6 +49,16 @@ const AdminLayout = ({ children }) => {
               </button>
             </li>
             <li>
+  <button
+    onClick={() => navigate("/orders")}
+    className={`w-full text-left p-2 rounded ${
+      location.pathname === "/orders" ? "bg-gray-700" : "hover:bg-gray-700"
+    }`}
+  >
+    Orders
+  </button>
+</li>
+            <li>
               <button
                 onClick={() => {
                   localStorage.removeItem("user");

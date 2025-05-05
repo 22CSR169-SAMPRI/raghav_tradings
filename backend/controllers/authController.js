@@ -48,3 +48,38 @@ export const loginUser = async (req, res) => {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
+
+// Save shipping details
+export const saveShippingDetails = async (req, res) => {
+  try {
+    const { userId, shippingDetails } = req.body;
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    user.shippingDetails = shippingDetails;
+    await user.save();
+
+    res.status(200).json({ message: "Shipping details saved successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Failed to save shipping details", error: error.message });
+  }
+};
+
+// Get shipping details
+export const getShippingDetails = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json(user.shippingDetails);
+  } catch (error) {
+    res.status(500).json({ message: "Failed to fetch shipping details", error: error.message });
+  }
+};

@@ -12,6 +12,9 @@ import Beverages from "./pages/Beverages";
 import ManageProducts from "./pages/ManageProducts";
 import Home from "./pages/Home"; // Import the new Home component
 import Checkout from "./pages/Checkout";
+import PaymentPage from "./pages/Payment";
+import ThankYou from "./pages/Thankyou";
+import Orders from "./pages/Orders";
 
 function App() {
   return (
@@ -31,6 +34,14 @@ function App() {
 
         <Route element={<ProtectedRoute allowedRoles={["customer"]} />}>
           <Route path="/checkout" element={<Checkout />} />
+        </Route>
+
+        <Route element={<ProtectedRoute allowedRoles={["customer"]} />}>
+          <Route path="/payment" element={<PaymentPage />} />
+        </Route>
+
+        <Route element={<ProtectedRoute allowedRoles={["customer"]} />}>
+          <Route path="/thank-you" element={<ThankYou />} />
         </Route>
         
         <Route element={<ProtectedRoute allowedRoles={["customer"]} />}>
@@ -52,6 +63,9 @@ function App() {
         <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
           <Route path="/add-items" element={<AddItems />} />
         </Route>
+        <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
+  <Route path="/orders" element={<Orders />} />
+</Route>
         <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
           <Route path="/manage-products" element={<ManageProducts />} />
         </Route>
