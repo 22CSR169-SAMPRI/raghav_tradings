@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements, CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
-import { CreditCard } from "lucide-react";
-import axios from "axios";
+//import { CreditCard } from "lucide-react";
+//import axios from "axios";
+import API from "../api";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
 
@@ -41,7 +42,7 @@ const Payment = () => {
 
     try {
       // Create a payment intent on the server
-      const { data } = await axios.post("http://localhost:5000/api/payment/create-payment-intent", {
+      const { data } = await API.post("/api/payment/create-payment-intent", {
         amount: calculateTotal() * 100, // Convert to smallest currency unit (e.g., cents)
       });
 

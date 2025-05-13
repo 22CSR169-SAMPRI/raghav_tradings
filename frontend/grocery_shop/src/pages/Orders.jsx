@@ -1,33 +1,38 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import AdminLayout from "../components/AdminLayout";
+import API from "../api";
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
-  // Fetch orders from the backend
-  useEffect(() => {
-    const fetchOrders = async () => {
-      try {
-        const { data } = await axios.get("http://localhost:5000/api/cart/orders");
-        setOrders(data);
-      } catch (error) {
-        console.error("Failed to fetch orders:", error.message);
-      }
-    };
+  const fetchOrders = async (page = 1) => {
+  try {
+    const { data } = await API.get(`/api/cart/orders?page=${page}&limit=10`);
+    setOrders(data.orders); // Update orders state with filtered data
+    setTotalPages(data.totalPages); // Update total pages based on filtered order count
+    setCurrentPage(data.currentPage); // Update current page
+  } catch (error) {
+    console.error("Failed to fetch orders:", error.message);
+  }
+};
 
-    fetchOrders();
-  }, []);
-
-  // Handle order dispatch
-  const handleDispatch = async (orderId) => {
+  const handleDispatched = async (orderId) => {
     try {
-      await axios.delete(`http://localhost:5000/api/cart/orders/${orderId}`);
+      await API.delete(`/api/cart/orders/${orderId}`);
       setOrders((prevOrders) => prevOrders.filter((order) => order._id !== orderId));
-      console.log("Order dispatched and deleted successfully");
     } catch (error) {
-      console.error("Failed to dispatch order:", error.message);
+      console.error("Failed to mark order as dispatched:", error.message);
     }
+  };
+
+  useEffect(() => {
+    fetchOrders(currentPage);
+  }, [currentPage]);
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
   };
 
   return (
@@ -53,7 +58,7 @@ const Orders = () => {
                   ))}
                 </ul>
                 <button
-                  onClick={() => handleDispatch(order._id)}
+                  onClick={() => handleDispatched(order._id)}
                   className="mt-4 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded"
                 >
                   Dispatched
@@ -62,6 +67,21 @@ const Orders = () => {
             ))}
           </div>
         )}
+
+        {/* Pagination */}
+<div className="flex justify-center mt-6">
+  {Array.from({ length: totalPages }, (_, index) => (
+    <button
+      key={index}
+      onClick={() => handlePageChange(index + 1)}
+      className={`px-4 py-2 mx-1 rounded ${
+        currentPage === index + 1 ? "bg-blue-500" : "bg-gray-700"
+      }`}
+    >
+      {index + 1}
+    </button>
+  ))}
+</div>
       </div>
     </AdminLayout>
   );

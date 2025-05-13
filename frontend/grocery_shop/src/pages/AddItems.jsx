@@ -1,6 +1,9 @@
 import React, { useState } from "react";
-import axios from "axios";
+//import axios from "axios";
 import AdminLayout from "../components/AdminLayout";
+import API from "../api";
+
+const baseURL = API.defaults.baseURL; // Adjust the base URL if needed
 
 const AddItems = () => {
   const [itemData, setItemData] = useState({
@@ -26,7 +29,7 @@ const AddItems = () => {
     formData.append("image", file);
   
     try {
-      const response = await axios.post("http://localhost:5000/api/upload", formData, {
+      const response = await API.post("/api/upload", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -46,7 +49,7 @@ const AddItems = () => {
   
   const handleAddItem = async () => {
     try {
-      const response = await axios.post("http://localhost:5000/api/products", itemData);
+      const response = await API.post("/api/products", itemData);
       console.log("Item added:", response.data);
       alert("Item added successfully!");
       setItemData({
@@ -167,7 +170,7 @@ const AddItems = () => {
     {itemData.images.map((image, index) => (
       <img
         key={index}
-        src={`http://localhost:5000${image}`}
+        src={`${baseURL}${image}`}
         alt={`Uploaded ${index + 1}`}
         className="w-full h-32 object-cover rounded-md"
       />

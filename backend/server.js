@@ -9,6 +9,7 @@ import paymentRoutes from "./routes/paymentRoutes.js";
 import path from "path";
 import fs from "fs";
 import cartRoutes from "./routes/cartRoutes.js";
+import dashboardRoutes from "./routes/dashboardRoutes.js";
 
 dotenv.config();
 connectDB();
@@ -35,6 +36,7 @@ app.use("/api/upload", UploadRoutes);
 app.use("/api/payment", paymentRoutes);
 
 app.use("/api/cart", cartRoutes);
+app.use("/api/dashboard", dashboardRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

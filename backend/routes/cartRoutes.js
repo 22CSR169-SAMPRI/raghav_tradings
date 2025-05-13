@@ -1,10 +1,10 @@
 import express from "express";
-import { saveCart, clearCart, getCart, saveOrderAndClearCart, getAllOrders, deleteOrder} from "../controllers/cartController.js";
+import { saveCart, clearCart, getCart, saveOrderAndClearCart, getAllOrders, markOrderAsDispatched} from "../controllers/cartController.js";
 
 const router = express.Router();
 
 router.get("/orders", getAllOrders);
-router.delete("/orders/:orderId", deleteOrder);
+router.delete("/orders/:orderId", markOrderAsDispatched);
 
 router.post("/save", saveCart);
 router.post("/clear", clearCart);

@@ -25,7 +25,7 @@ const Checkout = () => {
         const user = JSON.parse(localStorage.getItem("user"));
         if (!user) return;
 
-        const { data } = await API.get(`/auth/shipping-details/${user.id}`);
+        const { data } = await API.get(`/api/auth/shipping-details/${user.id}`);
         if (data) {
           setFormData(data);
         }
@@ -47,7 +47,7 @@ const Checkout = () => {
       const user = JSON.parse(localStorage.getItem("user"));
       if (!user) return;
 
-      await API.post("/auth/shipping-details", {
+      await API.post("/api/auth/shipping-details", {
         userId: user.id,
         shippingDetails: formData,
       });

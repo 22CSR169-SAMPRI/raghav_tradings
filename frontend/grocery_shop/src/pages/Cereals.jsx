@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+//import axios from "axios";
 import CustomerLayout from "../components/CustomerLayout";
 import { useCart } from "../context/CartContext";
+import API from "../api";
+const baseURL = API.defaults.baseURL; // Adjust the base URL if needed
 
 const Cereals = () => {
   const [products, setProducts] = useState([]);
@@ -17,7 +19,7 @@ const Cereals = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/products");
+        const response = await API.get("/api/products");
         const cereals = response.data.filter(
           (product) => product.category === "cereals"
         );
@@ -50,7 +52,7 @@ const Cereals = () => {
               {/* Product Image */}
               <div className="flex justify-center my-4">
                 <img
-                src={`http://localhost:5000${product.images[0]}`}
+                src={`${baseURL}${product.images[0]}`}
                 alt={product.name}
                 className="w-32 h-32 object-cover rounded-md"
                 />

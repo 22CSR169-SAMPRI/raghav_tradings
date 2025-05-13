@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { useCart } from "../context/CartContext";
+import API from "../api";
 
 export default function ThankYou() {
   const navigate = useNavigate();
@@ -19,7 +19,7 @@ export default function ThankYou() {
         );
 
         // Send order details to the backend
-        await axios.post("http://localhost:5000/api/cart/save-order-and-clear", {
+        await API.post("/api/cart/save-order-and-clear", {
           userId: user.id,
           customerName: user.name,
           customerEmail: user.email,
@@ -38,7 +38,7 @@ export default function ThankYou() {
   }, [cartItems, clearCart]);
 
   const handleContinueShopping = () => {
-    navigate("/customer-dashboard");
+    navigate("/customer-dashboard"); // Redirect to the homepage
   };
 
   return (
@@ -60,13 +60,10 @@ export default function ThankYou() {
             </svg>
           </div>
         </div>
-
         <h2 className="text-2xl font-semibold text-white mb-2">Order Confirmed!</h2>
-
         <p className="text-gray-300 mb-6">
           Thank you for your purchase. We hope to see you again soon!
         </p>
-
         <div className="flex justify-center">
           <button
             onClick={handleContinueShopping}

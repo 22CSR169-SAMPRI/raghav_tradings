@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+//import axios from "axios";
 import AdminLayout from "../components/AdminLayout";
+import API from "../api"; // Adjust the import path if necessary
 
 const ManageProducts = () => {
   const [products, setProducts] = useState([]);
@@ -10,7 +11,7 @@ const ManageProducts = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/products");
+        const response = await API.get("/api/products");
         setProducts(response.data);
 
         // Group products by category
@@ -34,7 +35,7 @@ const ManageProducts = () => {
   const handleDelete = async (productId) => {
     if (window.confirm("Are you sure you want to delete this product?")) {
       try {
-        await axios.delete(`http://localhost:5000/api/products/${productId}`);
+        await API.delete(`/api/products/${productId}`);
         // Update the products state immediately
         setProducts((prevProducts) =>
           prevProducts.filter((product) => product._id !== productId)
@@ -67,8 +68,8 @@ const ManageProducts = () => {
   // Handle Save after Edit
   const handleSave = async () => {
     try {
-      const response = await axios.put(
-        `http://localhost:5000/api/products/${editingProduct._id}`,
+      const response = await API.put(
+        `/api/products/${editingProduct._id}`,
         editingProduct
       );
 

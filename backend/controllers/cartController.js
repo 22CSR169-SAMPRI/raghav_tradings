@@ -80,20 +80,6 @@ export const saveOrderAndClearCart = async (req, res) => {
   try {
     const { userId, customerName, customerEmail, items, totalAmount } = req.body;
 
-    // Reduce stock for each product in the cart
-    for (const item of items) {
-      const product = await Product.findById(item.productId);
-      if (product) {
-        if (product.stock < item.quantity) {
-          return res.status(400).json({
-            message: `Insufficient stock for product: ${product.name}`,
-          });
-        }
-        product.stock -= item.quantity;
-        await product.save();
-      }
-    }
-
     // Save the order
     const order = new Order({
       customerId: userId,
@@ -107,7 +93,7 @@ export const saveOrderAndClearCart = async (req, res) => {
     // Clear the cart
     await Cart.findOneAndDelete({ userId });
 
-    res.status(200).json({ message: "Order saved, stock updated, and cart cleared successfully" });
+    res.status(200).json({ message: "Order saved and cart cleared successfully" });
   } catch (error) {
     res.status(500).json({ message: "Failed to save order and clear cart", error: error.message });
   }
@@ -115,14 +101,52 @@ export const saveOrderAndClearCart = async (req, res) => {
 
 export const getAllOrders = async (req, res) => {
   try {
-    const orders = await Order.find().populate("customerId", "name email");
-    res.status(200).json(orders);
+    const { page = 1, limit = 10 } = req.query; // Default to page 1 and 10 orders per page
+    const skip = (page - 1) * limit;
+
+    // Filter orders with totalAmount > 0
+    const query = { totalAmount: { $gt: 0 } };
+
+    // Fetch filtered orders with pagination
+    const orders = await Order.find(query)
+      .populate("customerId", "name email") // Populate customer details
+      .sort({ createdAt: -1 }) // Sort by most recent orders
+      .skip(skip)
+      .limit(parseInt(limit))
+      .lean(); // Use lean() for better performance
+
+    // Count total filtered orders
+    const totalOrders = await Order.countDocuments(query);
+
+    res.status(200).json({
+      orders,
+      totalOrders,
+      totalPages: Math.ceil(totalOrders / limit),
+      currentPage: parseInt(page),
+    });
   } catch (error) {
-    console.error("Error fetching orders:", error.message); // Log the error
+    console.error("Error fetching orders:", error.message);
     res.status(500).json({ message: "Failed to fetch orders", error: error.message });
   }
 };
 
+export const markOrderAsDispatched = async (req, res) => {
+  try {
+    const { orderId } = req.params;
+
+    // Remove the order from the database
+    const result = await Order.findByIdAndDelete(orderId);
+
+    if (!result) {
+      return res.status(404).json({ message: "Order not found" });
+    }
+
+    res.status(200).json({ message: "Order marked as dispatched" });
+  } catch (error) {
+    console.error("Error marking order as dispatched:", error.message);
+    res.status(500).json({ message: "Failed to mark order as dispatched", error: error.message });
+  }
+};
 export const deleteOrder = async (req, res) => {
   try {
     const { orderId } = req.params;
