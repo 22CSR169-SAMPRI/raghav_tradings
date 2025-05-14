@@ -22,7 +22,24 @@ if (!fs.existsSync(uploadsDir)) {
 }
 
 app.use(express.json());
-app.use(cors({ origin :"https://raghav-tradings.vercel.app/"}));
+
+// Allow multiple origins for CORS
+const allowedOrigins = [
+  "https://raghav-tradings.vercel.app", // Frontend hosted URL
+  "http://localhost:3000", // Local development URL
+];
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+  })
+);
 
 // Auth routes
 app.use("/api/auth", authRoutes);
