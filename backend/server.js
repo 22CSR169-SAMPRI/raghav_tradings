@@ -22,7 +22,7 @@ if (!fs.existsSync(uploadsDir)) {
 }
 
 app.use(express.json());
-app.use(cors());
+app.use(cors({ origin :"https://raghav-tradings.vercel.app/"}));
 
 // Auth routes
 app.use("/api/auth", authRoutes);
